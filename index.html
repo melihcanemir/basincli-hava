@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hava Kaçağı Maliyet Hesaplama</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0f0f0;
+    }
+    h1, h2, h3, p {
+      margin: 0;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .header h1 {
+      font-size: 36px;
+    }
+    .header h2 {
+      font-size: 24px;
+      margin-top: 5px;
+    }
+    .header .info {
+      text-align: left;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    hr {
+      margin: 20px 0;
+      border: 1px solid #aaa;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 1000px;
+      margin: 20px auto;
+      background-color: white;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #ddd;
+      text-align: center;
+    }
+    td:first-child {
+      width: 40%;
+    }
+    input {
+      width: 100%;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+    .buttons {
+      text-align: center;
+      margin: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    .aylik {
+      background-color: #d0e7ff;
+    }
+
+    .yillik {
+      background-color: #d0ffd8;
+    }
+
+    #printTitle {
+      display: none;
+      text-align: center;
+      font-size: 28px;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+
+    /* Kelebek Mobilya ve tarih sol üstte yan yana */
+    #ustBilgi {
+      display: none; /* Normal ekranda gizle */
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 16px;
+      color: #555;
+      font-weight: normal;
+      font-family: Arial, sans-serif;
+      z-index: 1000;
+      margin-right: 20px;
+      white-space: nowrap;
+    }
+
+    #printDate {
+      display: none;
+      font-size: 16px;
+      position: fixed;
+      top: 10px;
+      left: 150px;
+      color: #555;
+      font-family: Arial, sans-serif;
+      z-index: 1000;
+      white-space: nowrap;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      input, .buttons, h2, table:not(#kayitliVeriler), .header {
+        display: none !important;
+      }
+      #kayitliVeriler {
+        margin: 0 auto;
+        max-width: 100%;
+      }
+      #printTitle {
+        display: block !important;
+      }
+      #ustBilgi, #printDate {
+        display: block !important;
+        position: static !important;
+        margin: 0 0 10px 10px;
+      }
+    }
+
+    #kayitliVeriler th:first-child,
+    #kayitliVeriler td:first-child {
+      width: 50px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sol üst köşede Kelebek Mobilya ve tarih yan yana -->
+  <div id="ustBilgi">Kelebek Mobilya</div>
+  <div id="printDate"></div>
+
+  <!-- BAŞLIK KISMI -->
+  <div class="header">
+    <h1>KELEBEK MOBİLYA</h1>
+    <h2>BAKIM ONARIM</h2>
+    <div class="info">
+      <p>Melih Can EMİR - Elektrik & Elektronik Mühendisi</p>
+      <p>İletişim: melihemir81@gmail.com</p>
+    </div>
+    <hr />
+  </div>
+
+  <!-- YAZDIRMA BAŞLIĞI -->
+  <h1 id="printTitle">Hava Kaçakları Maliyet Tablosu</h1>
+
+  <h2 style="text-align:center;">Hava Kaçağı Maliyet Hesaplama</h2>
+
+  <div class="buttons">
+    <button onclick="window.print()">🖨 Yazdır / PDF'e Aktar</button>
+    <button onclick="veriyiKaydet()">➕ Veriyi Kaydet</button>
+  </div>
+
+  <!-- Giriş Alanları -->
+  <table>
+    <tr>
+      <td>Hava Kaçağı (Litre/dk):</td>
+      <td><input type="text" id="litre" oninput="syncFromLitre()" /></td>
+    </tr>
+    <tr>
+      <td>Hava Kaçağı (m³/dk):</td>
+      <td><input type="text" id="metrekup" oninput="syncFromMetrekup()" /></td>
+    </tr>
+    <tr>
+      <td>Elektrik birim fiyatı (₺ / kWh):</td>
+      <td><input type="text" id="birimFiyat" /></td>
+    </tr>
+    <tr>
+      <td>1 Euro kuru:</td>
+      <td><input type="text" id="euroKuru" /></td>
+    </tr>
+  </table>
+
+  <!-- Hesaplama Tablosu -->
+  <table>
+    <tr><th colspan="2">Hesaplanan Sonuçlar</th></tr>
+    <tr class="aylik"><td>Aylık Kayıp (30 gün)</td><td id="aylikKayıp"></td></tr>
+    <tr class="aylik"><td>Elektrik Tüketimi (kWh)</td><td id="aylikTuketim"></td></tr>
+    <tr class="aylik"><td>Elektrik Maliyeti (₺)</td><td id="aylikMaliyet"></td></tr>
+    <tr class="aylik"><td>Elektrik Maliyeti (€)</td><td id="aylikEuro"></td></tr>
+
+    <tr class="yillik"><td>Yıllık Kayıp (365 gün)</td><td id="yillikKayıp"></td></tr>
+    <tr class="yillik"><td>Elektrik Tüketimi (kWh)</td><td id="yillikTuketim"></td></tr>
+    <tr class="yillik"><td>Elektrik Maliyeti (₺)</td><td id="yillikMaliyet"></td></tr>
+    <tr class="yillik"><td>Elektrik Maliyeti (€)</td><td id="yillikEuro"></td></tr>
+  </table>
+
+  <!-- Kayıtlı Veriler Tablosu -->
+  <table id="kayitliVeriler">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Litre/dk</th>
+        <th>m³/dk</th>
+        <th>Aylık Maliyet (₺)</th>
+        <th>Aylık Maliyet (€)</th>
+        <th>Yıllık Maliyet (₺)</th>
+        <th>Yıllık Maliyet (€)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Veri kayıtları burada oluşacak -->
+    </tbody>
+  </table>
+
+  <script>
+    let veriIndex = 1;
+
+    // Virgülü noktaya çevirir ve sayı yapar
+    function parseToFloatTR(value) {
+      if (!value) return 0;
+      return parseFloat(value.replace(',', '.')) || 0;
+    }
+
+    // Noktayı virgüle çevirir, ondalık basamağı ayarlar
+    function formatToTR(value, decimals=2) {
+      return value.toFixed(decimals).replace('.', ',');
+    }
+
+    function syncFromLitre() {
+      const litreStr = document.getElementById("litre").value;
+      const litre = parseToFloatTR(litreStr);
+      document.getElementById("metrekup").value = formatToTR(litre / 1000, 3);
+      hesapla();
+    }
+
+    function syncFromMetrekup() {
+      const m3Str = document.getElementById("metrekup").value;
+      const m3 = parseToFloatTR(m3Str);
+      document.getElementById("litre").value = formatToTR(m3 * 1000, 2);
+      hesapla();
+    }
+
+    function hesapla() {
+      const litre = parseToFloatTR(document.getElementById("litre").value);
+      const birimFiyat = parseToFloatTR(document.getElementById("birimFiyat").value);
+      const euroKuru = parseToFloatTR(document.getElementById("euroKuru").value) || 1;
+
+      const aylikKayıp = litre * 60 * 24 * 30;
+      const yillikKayıp = litre * 60 * 24 * 365;
+
+      const aylikTuketim = aylikKayıp * 0.12 * 0.001;
+      const yillikTuketim = yillikKayıp * 0.12 * 0.001;
+
+      const aylikMaliyet = aylikTuketim * birimFiyat;
+      const yillikMaliyet = yillikTuketim * birimFiyat;
+
+      document.getElementById("aylikKayıp").innerText = `${formatToTR(aylikKayıp / 1000, 2)} m³ (${formatToTR(aylikKayıp, 2)} L)`;
+      document.getElementById("aylikTuketim").innerText = formatToTR(aylikTuketim, 2);
+      document.getElementById("aylikMaliyet").innerText = formatToTR(aylikMaliyet, 2);
+      document.getElementById("aylikEuro").innerText = formatToTR(aylikMaliyet / euroKuru, 2);
+
+      document.getElementById("yillikKayıp").innerText = `${formatToTR(yillikKayıp / 1000, 2)} m³ (${formatToTR(yillikKayıp, 2)} L)`;
+      document.getElementById("yillikTuketim").innerText = formatToTR(yillikTuketim, 2);
+      document.getElementById("yillikMaliyet").innerText = formatToTR(yillikMaliyet, 2);
+      document.getElementById("yillikEuro").innerText = formatToTR(yillikMaliyet / euroKuru, 2);
+    }
+
+    function veriyiKaydet() {
+      const litre = parseToFloatTR(document.getElementById("litre").value);
+      const metrekup = litre / 1000;
+      const euroKuru = parseToFloatTR(document.getElementById("euroKuru").value) || 1;
+      const birimFiyat = parseToFloatTR(document.getElementById("birimFiyat").value);
+
+      const aylikKayıp = litre * 60 * 24 * 30;
+      const yillikKayıp = litre * 60 * 24 * 365;
+
+      const aylikTuketim = aylikKayıp * 0.12 * 0.001;
+      const yillikTuketim = yillikKayıp * 0.12 * 0.001;
+
+      const aylikMaliyet = aylikTuketim * birimFiyat;
+      const yillikMaliyet = yillikTuketim * birimFiyat;
+
+      const aylikEuro = aylikMaliyet / euroKuru;
+      const yillikEuro = yillikMaliyet / euroKuru;
+
+      const tbody = document.querySelector("#kayitliVeriler tbody");
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${veriIndex++}</td>
+        <td>${formatToTR(litre, 2)}</td>
+        <td>${formatToTR(metrekup, 3)}</td>
+        <td>${formatToTR(aylikMaliyet, 2)}</td>
+        <td>${formatToTR(aylikEuro, 2)}</td>
+        <td>${formatToTR(yillikMaliyet, 2)}</td>
+        <td>${formatToTR(yillikEuro, 2)}</td>
+      `;
+
+      tbody.appendChild(row);
+    }
+
+    function tarihYaz() {
+      const now = new Date();
+      const gun = now.getDate().toString().padStart(2, '0');
+      const ay = (now.getMonth() + 1).toString().padStart(2, '0');
+      const yil = now.getFullYear();
+      document.getElementById("printDate").textContent = `${gun}.${ay}.${yil}`;
+    }
+
+    // Ondalık ayraç olarak virgül kullanımına izin ve dönüştürme
+    document.querySelectorAll("input").forEach(el => {
+      el.addEventListener("input", () => {
+        // Eğer sayı girdiyse hesapla
+        hesapla();
+      });
+      el.addEventListener("keypress", e => {
+        // Sadece rakam, virgül, backspace, ok tuşları kabul et
+        const allowed = ['0','1','2','3','4','5','6','7','8','9',','];
+        if (!allowed.includes(e.key) && !['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Tab'].includes(e.key)) {
+          e.preventDefault();
+        }
+      });
+    });
+
+    // Başlangıç değerleri için hesaplama ve tarih yazma
+    hesapla();
+    tarihYaz();
+  </script>
+
+</body>
+</html>
