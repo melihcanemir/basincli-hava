@@ -111,7 +111,11 @@
       white-space: nowrap;
     }
 
+#isimGoster {
+  display: none;
+}
     @media print {
+
       body {
         background: white;
         padding: 0;
@@ -131,6 +135,13 @@
         position: static !important;
         margin: 0 0 10px 10px;
       }
+ #isimGoster.sadeceYazdirma {
+    display: block !important;
+    text-align: right;
+    font-size: 16px;
+    margin-right: 20px;
+    font-style: italic;
+  }
     }
 
     #kayitliVeriler th:first-child,
@@ -151,11 +162,13 @@
     <h1>KELEBEK MOBİLYA</h1>
     <h2>BAKIM ONARIM</h2>
     <div class="info">
-      <p>Melih Can EMİR - Elektrik & Elektronik Mühendisi</p>
-      <p>İletişim: melihemir81@gmail.com</p>
+      <p style="font-size: 14px;">Melih Can EMİR - Elektrik & Elektronik Mühendisi</p>
+      <p style="font-size: 14px;">İletişim: melihemir81@gmail.com</p>
+
     </div>
     <hr />
   </div>
+
 
   <!-- YAZDIRMA BAŞLIĞI -->
   <h1 id="printTitle">Hava Kaçakları Maliyet Tablosu</h1>
@@ -169,6 +182,11 @@
 
   <!-- Giriş Alanları -->
   <table>
+
+    <tr>
+      <td>Bölüm:</td>
+      <td><input type="text" id="bolum" /></td>
+    </tr>
     <tr>
       <td>Hava Kaçağı (Litre/dk):</td>
       <td><input type="text" id="litre" oninput="syncFromLitre()" /></td>
@@ -185,7 +203,13 @@
       <td>1 Euro kuru:</td>
       <td><input type="text" id="euroKuru" /></td>
     </tr>
+  <tr>
+      <td>Ad Soyad (zorunlu değil):</td>
+      <td><input type="text" id="isim" /></td>
+    </tr>
   </table>
+  
+
 
   <!-- Hesaplama Tablosu -->
   <table>
@@ -201,11 +225,16 @@
     <tr class="yillik"><td>Elektrik Maliyeti (€)</td><td id="yillikEuro"></td></tr>
   </table>
 
+    <p id="isimGoster" class="sadeceYazdirma"></p>
+      <p id="isimGoster" style="text-align:right; font-size:5px; margin-right:20px; margin-top:8px; font-style:italic;"></p>
+
+
   <!-- Kayıtlı Veriler Tablosu -->
   <table id="kayitliVeriler">
     <thead>
       <tr>
         <th>No</th>
+        <th>Bölüm</th>
         <th>Litre/dk</th>
         <th>m³/dk</th>
         <th>Aylık Maliyet (₺)</th>
@@ -215,9 +244,26 @@
       </tr>
     </thead>
     <tbody>
+
+
       <!-- Veri kayıtları burada oluşacak -->
     </tbody>
+<tfoot>
+    <tr style="font-weight:bold; background:#eee;">
+      <td>Toplam</td>
+      <td>-</td> 
+      <td id="toplamLitre">0,000</td>
+      <td id="toplamMetrekup">0,000</td>
+      <td id="toplamAylikTL">0,000</td>
+      <td id="toplamAylikEuro">0,000</td>
+      <td id="toplamYillikTL">0,000</td>
+      <td id="toplamYillikEuro">0,000</td>
+    </tr>
+  </tfoot>
   </table>
+
+  
+
 
   <script>
     let veriIndex = 1;
@@ -274,6 +320,8 @@
 
     function veriyiKaydet() {
       const litre = parseToFloatTR(document.getElementById("litre").value);
+      const bolum = document.getElementById("bolum").value || "-";
+
       const metrekup = litre / 1000;
       const euroKuru = parseToFloatTR(document.getElementById("euroKuru").value) || 1;
       const birimFiyat = parseToFloatTR(document.getElementById("birimFiyat").value);
@@ -293,8 +341,20 @@
       const tbody = document.querySelector("#kayitliVeriler tbody");
       const row = document.createElement("tr");
 
+
+   
+const isim = document.getElementById("isim").value.trim();
+if (isim) {
+  document.getElementById("isimGoster").innerText = `Raporlayan: ${isim}`;
+} else {
+  document.getElementById("isimGoster").innerText = "";
+}
+
+
+
       row.innerHTML = `
         <td>${veriIndex++}</td>
+        <td>${bolum}</td>
         <td>${formatToTR(litre, 2)}</td>
         <td>${formatToTR(metrekup, 3)}</td>
         <td>${formatToTR(aylikMaliyet, 2)}</td>
@@ -304,7 +364,38 @@
       `;
 
       tbody.appendChild(row);
+         
+      toplamlariGuncelle();
+
     }
+function toplamlariGuncelle() {
+  const rows = document.querySelectorAll("#kayitliVeriler tbody tr");
+ 
+  let toplamLitre = 0;
+  let toplamMetrekup = 0;
+  let toplamAylikTL = 0;
+  let toplamAylikEuro = 0;
+  let toplamYillikTL = 0;
+  let toplamYillikEuro = 0;
+
+  rows.forEach(row => {
+    const tds = row.querySelectorAll("td");
+
+    toplamLitre += parseToFloatTR(tds[2].innerText);
+    toplamMetrekup += parseToFloatTR(tds[3].innerText);
+    toplamAylikTL += parseToFloatTR(tds[4].innerText);
+    toplamAylikEuro += parseToFloatTR(tds[5].innerText);
+    toplamYillikTL += parseToFloatTR(tds[6].innerText);
+    toplamYillikEuro += parseToFloatTR(tds[7].innerText);
+  });
+
+  document.getElementById("toplamLitre").innerText = formatToTR(toplamLitre, 2);
+  document.getElementById("toplamMetrekup").innerText = formatToTR(toplamMetrekup, 3);
+  document.getElementById("toplamAylikTL").innerText = formatToTR(toplamAylikTL, 2);
+  document.getElementById("toplamAylikEuro").innerText = formatToTR(toplamAylikEuro, 2);
+  document.getElementById("toplamYillikTL").innerText = formatToTR(toplamYillikTL, 2);
+  document.getElementById("toplamYillikEuro").innerText = formatToTR(toplamYillikEuro, 2);
+}
 
     function tarihYaz() {
       const now = new Date();
@@ -314,20 +405,23 @@
       document.getElementById("printDate").textContent = `${gun}.${ay}.${yil}`;
     }
 
-    // Ondalık ayraç olarak virgül kullanımına izin ve dönüştürme
-    document.querySelectorAll("input").forEach(el => {
-      el.addEventListener("input", () => {
-        // Eğer sayı girdiyse hesapla
-        hesapla();
-      });
-      el.addEventListener("keypress", e => {
-        // Sadece rakam, virgül, backspace, ok tuşları kabul et
-        const allowed = ['0','1','2','3','4','5','6','7','8','9',','];
-        if (!allowed.includes(e.key) && !['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Tab'].includes(e.key)) {
-          e.preventDefault();
-        }
-      });
-    });
+  // Sadece sayısal alanlar için geçerli olacak kısıtlama
+const sayisalInputlar = ['litre', 'metrekup', 'birimFiyat', 'euroKuru'];
+
+sayisalInputlar.forEach(id => {
+  const el = document.getElementById(id);
+
+  el.addEventListener("input", () => {
+    hesapla();
+  });
+
+  el.addEventListener("keypress", e => {
+    const allowed = ['0','1','2','3','4','5','6','7','8','9',','];
+    if (!allowed.includes(e.key) && !['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Tab'].includes(e.key)) {
+      e.preventDefault();
+    }
+  });
+});
 
     // Başlangıç değerleri için hesaplama ve tarih yazma
     hesapla();
