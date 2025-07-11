@@ -9,7 +9,7 @@
       padding: 20px;
       background: #f0f0f0;
     }
-    h1, h2, h3, p {
+     h1, h2, h3, p {
       margin: 0;
     }
     .header {
@@ -17,16 +17,16 @@
       margin-bottom: 10px;
     }
     .header h1 {
-      font-size: 36px;
+      font-size: 24px;
     }
     .header h2 {
       font-size: 24px;
-      margin-top: 5px;
+      margin-top: 12px;
     }
     .header .info {
       text-align: left;
       margin-top: 10px;
-      font-size: 16px;
+      font-size: 10px;
     }
     hr {
       margin: 20px 0;
@@ -37,7 +37,7 @@
       border-collapse: collapse;
       width: 100%;
       max-width: 1000px;
-      margin: 20px auto;
+      margin: 10px auto;
       background-color: white;
     }
     th, td {
@@ -76,15 +76,29 @@
       background-color: #d0ffd8;
     }
 
+
+#infoIcon {
+  font-size: 32px; /*info punto büyütmek için */
+  cursor: pointer;
+}
+
     #printTitle {
       display: none;
       text-align: center;
-      font-size: 28px;
+      font-size: 16px;
       margin-top: 30px;
       margin-bottom: 30px;
     }
+    .silBtn {
+      background: #e5e5e5;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-size: 16px;
+    }
 
-    /* Kelebek Mobilya ve tarih sol üstte yan yana */
+
+    /* Tarih sol üstte yan yana */
     #ustBilgi {
       display: none; /* Normal ekranda gizle */
       position: fixed;
@@ -104,7 +118,7 @@
       font-size: 16px;
       position: fixed;
       top: 10px;
-      left: 150px;
+      right: 10px;
       color: #555;
       font-family: Arial, sans-serif;
       z-index: 1000;
@@ -114,27 +128,49 @@
 #isimGoster {
   display: none;
 }
+
+
     @media print {
+
+
+.silSutunu {
+    display: none !important;
+  }
+
 
       body {
         background: white;
         padding: 0;
+        font-size: 8pt;
       }
-      input, .buttons, h2, table:not(#kayitliVeriler), .header {
+      input, .buttons,h2, h3, table:not(#kayitliVeriler), .header {
         display: none !important;
-      }
+        font-size: 5pt;
+              }
+
+  div[style*="text-align: center;"] {
+    display: none !important;
+  }
       #kayitliVeriler {
         margin: 0 auto;
         max-width: 100%;
       }
       #printTitle {
         display: block !important;
+        padding-top: 40px !important;
       }
-      #ustBilgi, #printDate {
-        display: block !important;
-        position: static !important;
-        margin: 0 0 10px 10px;
-      }
+    #ustBilgi {
+  display: none !important;
+}
+
+
+
+#printDate {
+  display: block !important;
+  position: fixed !important; /* tekrar sabitledik */
+  top: 10px;
+  right: 10px;
+}
  #isimGoster.sadeceYazdirma {
     display: block !important;
     text-align: right;
@@ -146,6 +182,17 @@
  div[style*="text-align: center;"] img {
     width: 150px !important;
   }
+#printLogo {
+    display: block !important;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+  }
+  /* Normalde ekranda büyük logoyu yazdırmada gizle */
+  div[style*="text-align: center;"] img {
+    display: none !important;
+  }
     }
 
     #kayitliVeriler th:first-child,
@@ -153,6 +200,7 @@
       width: 50px;
       text-align: center;
     }
+
   </style>
 </head>
 <body>
@@ -162,22 +210,26 @@
   <div id="printDate"></div>
 
   <div style="text-align: center;">
-    <img src="https://raw.githubusercontent.com/melihcanemir/basincli-hava/refs/heads/main/logo.webp" alt="Logo" style="width:300px;">
+    <img src="https://raw.githubusercontent.com/melihcanemir/basincli-hava/refs/heads/main/logo.webp" alt="Logo" style="width:450px;">
   </div>
+
+<div id="printLogo" style="display:none;">
+  <img src="https://raw.githubusercontent.com/melihcanemir/basincli-hava/refs/heads/main/logo.webp" alt="Logo" style="width:150px;">
+</div>
 
   <!-- BAŞLIK KISMI -->
   <div class="header">
     
     <h2>BAKIM ONARIM</h2>
     <div class="info">
-      <p style="font-size: 14px;">Melih Can EMİR - Elektrik & Elektronik Mühendisi</p>
-      <p style="font-size: 14px;">İletişim: melihemir81@gmail.com</p>
 
+<span id="infoIcon" style="cursor:pointer; color:blue;" title="Bilgi">ℹ️</span>
 
-
+   
     </div>
     <hr />
   </div>
+
 
 
   <!-- YAZDIRMA BAŞLIĞI -->
@@ -251,6 +303,7 @@
         <th>Aylık Maliyet (€)</th>
         <th>Yıllık Maliyet (₺)</th>
         <th>Yıllık Maliyet (€)</th>
+        <th class="silSutunu">İşlem</th>
       </tr>
     </thead>
     <tbody>
@@ -272,10 +325,53 @@
   </tfoot>
   </table>
 
+<div id="infoPopup" style="
+  display:none;
+  position: absolute;
+  background: #fff;
+  border: 1px solid #aaa;
+  padding: 10px;
+  width: 250px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 10000;
+">
+  <p>Melih Can EMİR <br> Elektrik & Elektronik Mühendisi <br> <br> İletişim: melihemir81@gmail.com <br> </p>
+  <button id="closePopup">Kapat</button>
+</div>
+
   
 
 
   <script>
+
+
+
+
+const infoIcon = document.getElementById("infoIcon");
+const infoPopup = document.getElementById("infoPopup");
+const closePopup = document.getElementById("closePopup");
+
+infoIcon.addEventListener("click", function(event) {
+  // Pop-up’u info ikonun hemen altına konumlandır
+  const rect = infoIcon.getBoundingClientRect();
+  infoPopup.style.top = (rect.bottom + window.scrollY + 5) + "px";
+  infoPopup.style.left = (rect.left + window.scrollX) + "px";
+  infoPopup.style.display = "block";
+});
+
+closePopup.addEventListener("click", function() {
+  infoPopup.style.display = "none";
+});
+
+// Sayfada popup dışına tıklanırsa pop-up kapanabilir
+document.addEventListener("click", function(event) {
+  if (!infoPopup.contains(event.target) && event.target !== infoIcon) {
+    infoPopup.style.display = "none";
+  }
+});
+
+
+
     let veriIndex = 1;
 
     // Virgülü noktaya çevirir ve sayı yapar
@@ -350,15 +446,13 @@
 
       const tbody = document.querySelector("#kayitliVeriler tbody");
       const row = document.createElement("tr");
-
-
-   
-const isim = document.getElementById("isim").value.trim();
-if (isim) {
-  document.getElementById("isimGoster").innerText = `Raporlayan: ${isim}`;
-} else {
-  document.getElementById("isimGoster").innerText = "";
-}
+ 
+      const isim = document.getElementById("isim").value.trim();
+        if (isim) {
+            document.getElementById("isimGoster").innerText = `Raporlayan: ${isim}`;
+                  } else {
+                     document.getElementById("isimGoster").innerText = "";
+                  }
 
 
 
@@ -371,6 +465,7 @@ if (isim) {
         <td>${formatToTR(aylikEuro, 2)}</td>
         <td>${formatToTR(yillikMaliyet, 2)}</td>
         <td>${formatToTR(yillikEuro, 2)}</td>
+        <td class="silSutunu"><button class="silBtn" title="sil">❌</button></td>
       `;
 
       tbody.appendChild(row);
@@ -378,6 +473,25 @@ if (isim) {
       toplamlariGuncelle();
 
     }
+
+document.querySelector("#kayitliVeriler tbody").addEventListener("click", function(e) {
+  if (e.target.classList.contains("silBtn")) {
+    const satir = e.target.closest("tr");
+    satir.remove();
+    
+veriIndex--; // İstersen indeks güncelleyebilirsin
+    toplamlariGuncelle();
+    // No sütunlarını güncellemek için:
+    const rows = document.querySelectorAll("#kayitliVeriler tbody tr");
+    rows.forEach((row, i) => {
+      row.cells[0].innerText = i + 1;
+    });
+    veriIndex = rows.length + 1;
+  }
+});
+
+
+
 function toplamlariGuncelle() {
   const rows = document.querySelectorAll("#kayitliVeriler tbody tr");
  
