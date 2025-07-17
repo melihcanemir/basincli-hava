@@ -1,9 +1,83 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Hava Kaçağı Maliyet Hesaplama</title>
   <style>
+/* Mobil cihazlar için düzenleme */
+@media (max-width: 768px) {
+
+  /* Genel sayfa düzeni */
+  body {
+    font-size: 14px; /* Yazı tipi boyutunu küçültme */
+    padding: 10px;   /* Sayfanın kenarlarından biraz boşluk bırakma */
+  }
+
+  /* Başlıklar için düzenleme */
+  .toplamSatir {
+    font-size: 12px; /* Başlık yazı boyutunu küçültme */
+    padding: 8px 10px; /* Başlık hücrelerine daha küçük padding */
+  }
+
+  /* Tabloları daha mobil dostu yapmak için */
+  table {
+    width: 100%; /* Tabloyu tamamen ekran genişliğine yayma */
+    border-collapse: collapse; /* Kenarlıkları birleştir */
+    overflow-x: auto; /* Tabloyu yatayda kaydırılabilir yapma */
+    display: block; /* Tabloyu blok eleman yaparak kaydırma ekle */
+  }
+
+  table th, table td {
+    padding: 10px; /* Hücre içi boşlukları artırma */
+    font-size: 12px; /* Hücredeki yazı boyutunu küçültme */
+  }
+
+  /* Hücrelerdeki içerikleri sığdırmak için */
+  .silSutunu {
+    display: none; /* İşlem sütununu mobilde gizleyebiliriz */
+  }
+
+  /* Başlık hücrelerini ve içerikleri mobil uyumlu yapmak */
+  table th {
+    text-align: center; /* Başlıkları ortalama */
+  }
+
+  /* Tablonun hücreleri çok genişse, yazıyı sarmak */
+  td {
+    word-wrap: break-word; /* Yazıyı hücreye sığdırmak için kırılmasını sağla */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* Daha küçük ekranlar için (örneğin, 480px ve daha küçük) ek düzenlemeler */
+@media (max-width: 480px) {
+
+  body {
+    font-size: 13px; /* Yazı boyutunu biraz daha küçültme */
+  }
+
+  table th, table td {
+    font-size: 11px; /* Hücrelerdeki yazıyı daha da küçültme */
+  }
+
+  /* Tabloyu yatayda kaydırılabilir yapma */
+  table {
+    display: block;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch; /* iOS cihazlarda kaydırma daha düzgün olur */
+  }
+
+  /* Genel padding ve margin düzenlemeleri */
+  .toplamSatir {
+    padding: 5px; /* Başlık hücrelerinin padding'ini küçültme */
+  }
+}
+
+
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
