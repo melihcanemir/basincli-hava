@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -32,6 +33,7 @@
       margin: 20px 0;
       border: 1px solid #aaa;
     }
+
 
     table {
       border-collapse: collapse;
@@ -69,12 +71,14 @@
     }
 
     .aylik {
-      background-color: #d0e7ff;
+      background-color: #f2e8e6;
     }
 
     .yillik {
-      background-color: #d0ffd8;
+      background-color: #faf6f5;
     }
+
+   
 
 
 #infoIcon {
@@ -158,6 +162,13 @@
         font-size: 5pt;
               }
 
+.toplamSatir {
+    background-color: transparent !important;
+    color: black !important;
+  }
+
+
+
   div[style*="text-align: center;"] {
     display: none !important;
   }
@@ -228,6 +239,17 @@
       width: 50px;
       text-align: center;
     }
+
+.sonucBaslik {
+  background-color: #eb576b;
+  color: white;
+}
+
+/* Başlık hücrelerine özel stil */
+.toplamSatir {
+  background-color: #eb576b; /* Başlık hücreleri için mavi renk */
+  color: white; /* Başlık yazı rengi beyaz */
+}
 
   </style>
 </head>
@@ -311,7 +333,7 @@
 
   <!-- Hesaplama Tablosu -->
   <table>
-    <tr><th colspan="2">Hesaplanan Sonuçlar</th></tr>
+    <tr><th colspan="2" class="sonucBaslik">Hesaplanan Sonuçlar</th></tr>
     <tr class="aylik"><td>Aylık Kayıp (30 gün)</td><td id="aylikKayıp"></td></tr>
     <tr class="aylik"><td>Elektrik Tüketimi (kWh)</td><td id="aylikTuketim"></td></tr>
     <tr class="aylik"><td>Elektrik Maliyeti (₺)</td><td id="aylikMaliyet"></td></tr>
@@ -331,15 +353,15 @@
   <table id="kayitliVeriler">
     <thead>
       <tr>
-        <th>No</th>
-        <th>Bölüm</th>
-        <th>Litre/dk</th>
-        <th>m³/dk</th>
-        <th>Aylık Maliyet (₺)</th>
-        <th>Aylık Maliyet (€)</th>
-        <th>Yıllık Maliyet (₺)</th>
-        <th>Yıllık Maliyet (€)</th>
-        <th class="silSutunu">İşlem</th>
+    <th class="toplamSatir">No</th>  <!-- class eklendi -->
+    <th class="toplamSatir">Bölüm</th> <!-- class eklendi -->
+    <th class="toplamSatir">Litre/dk</th> <!-- class eklendi -->
+    <th class="toplamSatir">m³/dk</th> <!-- class eklendi -->
+    <th class="toplamSatir">Aylık Maliyet (₺)</th> <!-- class eklendi -->
+    <th class="toplamSatir">Aylık Maliyet (€)</th> <!-- class eklendi -->
+    <th class="toplamSatir">Yıllık Maliyet (₺)</th> <!-- class eklendi -->
+    <th class="toplamSatir">Yıllık Maliyet (€)</th> <!-- class eklendi -->
+    <th class="toplamSatir silSutunu">İşlem</th> <!-- class eklendi -->
       </tr>
     </thead>
     <tbody>
