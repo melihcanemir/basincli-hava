@@ -28,9 +28,15 @@
       margin-top: 10px;
       font-size: 10px;
     }
+
+   /*ana başlığın altındaki yatay çizgi*/
+
     hr {
-      margin: 20px 0;
-      border: 1px solid #aaa;
+       margin: 20px 0;
+       border: none;
+       height: 6px; /* Kalınlık */
+       background-color: #eb576b; /* Renk */
+       
     }
 
 
@@ -67,6 +73,10 @@
       font-size: 16px;
       margin: 5px;
       cursor: pointer;
+      background-color: #eb576b; /* Arka plan rengi */
+      color: white;              /* Yazı rengi */
+      border: none;              /* Kenarlık kaldır */
+      border-radius: 4px;        /* Hafif köşe yumuşatma (isteğe bağlı) */
     }
 
     .aylik {
@@ -75,6 +85,10 @@
 
     .yillik {
       background-color: #faf6f5;
+    }
+
+    button:active {
+       background-color: #cc2941; /* Daha koyu mavi tıklama rengi */
     }
 
    
@@ -160,6 +174,10 @@
         display: none !important;
         font-size: 5pt;
               }
+
+footer {
+    display: none !important;
+  }
 
 .toplamSatir {
     background-color: transparent !important;
@@ -304,7 +322,7 @@
 
     <tr>
       <td>Bölüm:</td>
-      <td><input type="text" id="bolum" placeholder="örnek: panel"/></td>
+      <td><input type="text" id="bolum" placeholder="örnek: panel" /></td>
     </tr>
     <tr>
       <td>Hava Kaçağı (Litre/dk):</td>
@@ -316,11 +334,11 @@
     </tr>
     <tr>
       <td>Elektrik birim fiyatı (₺ / kWh):</td>
-      <td><input type="text" id="birimFiyat" placeholder="örnek: 3,51₺" /></td>
+      <td><input type="text" id="birimFiyat" placeholder="örnek: 3,51₺"/></td>
     </tr>
     <tr>
       <td>1 Euro kuru:</td>
-      <td><input type="text" id="euroKuru" placeholder="örnek: 48,49₺" /></td>
+      <td><input type="text" id="euroKuru" placeholder="örnek: 48,49₺"/></td>
     </tr>
   <tr>
       <td>Ad Soyad (zorunlu değil):</td>
