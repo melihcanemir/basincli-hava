@@ -29,8 +29,6 @@
       font-size: 10px;
     }
 
-   /*ana başlığın altındaki yatay çizgi*/
-
     hr {
        margin: 20px 0;
        border: none;
@@ -38,7 +36,6 @@
        background-color: #eb576b; /* Renk */
        
     }
-
 
     table {
       border-collapse: collapse;
@@ -73,10 +70,10 @@
       font-size: 16px;
       margin: 5px;
       cursor: pointer;
-      background-color: #eb576b; /* Arka plan rengi */
-      color: white;              /* Yazı rengi */
-      border: none;              /* Kenarlık kaldır */
-      border-radius: 4px;        /* Hafif köşe yumuşatma (isteğe bağlı) */
+      background-color: #eb576b; 
+      color: white;              
+      border: none;              
+      border-radius: 4px;        
     }
 
     .aylik {
@@ -88,14 +85,12 @@
     }
 
     button:active {
-       background-color: #cc2941; /* Daha koyu mavi tıklama rengi */
+       background-color: #cc2941; 
     }
-
-   
 
 
 #infoIcon {
-  font-size: 32px; /*info punto büyütmek için */
+  font-size: 32px; 
   cursor: pointer;
 }
 
@@ -114,19 +109,16 @@
       font-size: 16px;
     }
 
-/* Çıktılar başlığı yalnızca yazdırma ekranına ekle */
     #printOutputTitle {
          display: none;
     }
 
-/* Çıktılar başlığı yalnızca yazdırma ekranına ekle */
     #printOutputTitle1 {
          display: none;
     }
 
-    /* Tarih sol üstte yan yana */
     #ustBilgi {
-      display: none; /* Normal ekranda gizle */
+      display: none; 
       position: fixed;
       top: 10px;
       left: 10px;
@@ -155,15 +147,11 @@
   display: none;
 }
 
-
-
     @media print {
-
 
 .silSutunu {
     display: none !important;
   }
-
 
       body {
         background: white;
@@ -184,8 +172,6 @@ footer {
     color: black !important;
   }
 
-
-
   div[style*="text-align: center;"] {
     display: none !important;
   }
@@ -201,7 +187,6 @@ footer {
   display: none !important;
 }
 
- /* Yazdırma ekranı için özel stiller- BAKIM ONARIM MÜDÜRLÜĞÜ */
     #printOutputTitle {
       display: block !important;
       font-size: 16px;
@@ -210,7 +195,6 @@ footer {
       text-align: center;
     }
 
-/* Yazdırma ekranı için özel stiller- Planlı Bakım Faaliyetleri*/
     #printOutputTitle1 {
       display: block !important;
       font-size: 13px;
@@ -221,7 +205,7 @@ footer {
 
 #printDate {
   display: block !important;
-  position: fixed !important; /* tekrar sabitledik */
+  position: fixed !important; 
   top: 10px;
   right: 10px;
 }
@@ -245,7 +229,7 @@ footer {
     left: 10px;
     z-index: 1000;
   }
-  /* Normalde ekranda büyük logoyu yazdırmada gizle */
+
   div[style*="text-align: center;"] img {
     display: none !important;
   }
@@ -256,23 +240,19 @@ footer {
       width: 50px;
       text-align: center;
     }
-
 .sonucBaslik {
   background-color: #eb576b;
   color: white;
 }
 
-/* Başlık hücrelerine özel stil */
 .toplamSatir {
-  background-color: #eb576b; /* Başlık hücreleri için mavi renk */
-  color: white; /* Başlık yazı rengi beyaz */
+  background-color: #eb576b; 
+  color: white; 
 }
 
   </style>
 </head>
 <body>
-
-  <!-- Sol üst köşede Kelebek Mobilya ve tarih yan yana -->
   <div id="ustBilgi">Kelebek Mobilya</div>
   <div id="printDate"></div>
 
@@ -284,14 +264,8 @@ footer {
   <img src="https://raw.githubusercontent.com/melihcanemir/basincli-hava/refs/heads/main/logo.webp" alt="Logo" style="width:150px;">
 </div>
 
-<!-- Yeni Başlık: Çıktılar -->
   <div id="printOutputTitle">BAKIM ONARIM MÜDÜRLÜĞÜ</div>
-<!-- Yeni Başlık: Çıktılar -->
   <div id="printOutputTitle1">Planlı Bakım Faaliyetleri</div>
-
-
-
-  <!-- BAŞLIK KISMI -->
   <div class="header">
     
     <h2>BAKIM ONARIM</h2>
@@ -300,14 +274,10 @@ footer {
 
 <span id="infoIcon" style="cursor:pointer; color:blue;" title="Bilgi">ℹ️</span>
 
-   
     </div>
     <hr />
   </div>
 
-
-
-  <!-- YAZDIRMA BAŞLIĞI -->
   <h1 id="printTitle">Hava Kaçakları Maliyet Tablosu</h1>
 
   <h2 style="text-align:center;">Hava Kaçağı Maliyet Hesaplama</h2>
@@ -317,7 +287,6 @@ footer {
     <button onclick="veriyiKaydet()">➕ Veriyi Kaydet</button>
   </div>
 
-  <!-- Giriş Alanları -->
   <table>
 
     <tr>
@@ -345,10 +314,7 @@ footer {
       <td><input type="text" id="isim" /></td>
     </tr>
   </table>
-  
 
-
-  <!-- Hesaplama Tablosu -->
   <table>
     <tr><th colspan="2" class="sonucBaslik">Hesaplanan Sonuçlar</th></tr>
     <tr class="aylik"><td>Aylık Kayıp (30 gün)</td><td id="aylikKayıp"></td></tr>
@@ -365,26 +331,22 @@ footer {
     <p id="isimGoster" class="sadeceYazdirma"></p>
       <p id="isimGoster" style="text-align:right; font-size:5px; margin-right:20px; margin-top:8px; font-style:italic;"></p>
 
-
-  <!-- Kayıtlı Veriler Tablosu -->
   <table id="kayitliVeriler">
     <thead>
       <tr>
-    <th class="toplamSatir">No</th>  <!-- class eklendi -->
-    <th class="toplamSatir">Bölüm</th> <!-- class eklendi -->
-    <th class="toplamSatir">Litre/dk</th> <!-- class eklendi -->
-    <th class="toplamSatir">m³/dk</th> <!-- class eklendi -->
-    <th class="toplamSatir">Aylık Maliyet (₺)</th> <!-- class eklendi -->
-    <th class="toplamSatir">Aylık Maliyet (€)</th> <!-- class eklendi -->
-    <th class="toplamSatir">Yıllık Maliyet (₺)</th> <!-- class eklendi -->
-    <th class="toplamSatir">Yıllık Maliyet (€)</th> <!-- class eklendi -->
-    <th class="toplamSatir silSutunu">İşlem</th> <!-- class eklendi -->
+    <th class="toplamSatir">No</th> 
+    <th class="toplamSatir">Bölüm</th> 
+    <th class="toplamSatir">Litre/dk</th> 
+    <th class="toplamSatir">m³/dk</th> 
+    <th class="toplamSatir">Aylık Maliyet (₺)</th> 
+    <th class="toplamSatir">Aylık Maliyet (€)</th> 
+    <th class="toplamSatir">Yıllık Maliyet (₺)</th> 
+    <th class="toplamSatir">Yıllık Maliyet (€)</th> 
+    <th class="toplamSatir silSutunu">İşlem</th> 
       </tr>
     </thead>
     <tbody>
 
-
-      <!-- Veri kayıtları burada oluşacak -->
     </tbody>
 <tfoot>
     <tr style="font-weight:bold; background:#eee;">
@@ -414,20 +376,12 @@ footer {
   <button id="closePopup">Kapat</button>
 </div>
 
-  
-
-
   <script>
-
-
-
-
 const infoIcon = document.getElementById("infoIcon");
 const infoPopup = document.getElementById("infoPopup");
 const closePopup = document.getElementById("closePopup");
 
 infoIcon.addEventListener("click", function(event) {
-  // Pop-up’u info ikonun hemen altına konumlandır
   const rect = infoIcon.getBoundingClientRect();
   infoPopup.style.top = (rect.bottom + window.scrollY + 5) + "px";
   infoPopup.style.left = (rect.left + window.scrollX) + "px";
@@ -438,24 +392,18 @@ closePopup.addEventListener("click", function() {
   infoPopup.style.display = "none";
 });
 
-// Sayfada popup dışına tıklanırsa pop-up kapanabilir
 document.addEventListener("click", function(event) {
   if (!infoPopup.contains(event.target) && event.target !== infoIcon) {
     infoPopup.style.display = "none";
   }
 });
-
-
-
     let veriIndex = 1;
 
-    // Virgülü noktaya çevirir ve sayı yapar
     function parseToFloatTR(value) {
       if (!value) return 0;
       return parseFloat(value.replace(',', '.')) || 0;
     }
 
-    // Noktayı virgüle çevirir, ondalık basamağı ayarlar
     function formatToTR(value, decimals=2) {
       return value.toFixed(decimals).replace('.', ',');
     }
@@ -528,9 +476,6 @@ document.addEventListener("click", function(event) {
                   } else {
                      document.getElementById("isimGoster").innerText = "";
                   }
-
-
-
       row.innerHTML = `
         <td>${veriIndex++}</td>
         <td>${bolum}</td>
@@ -554,9 +499,8 @@ document.querySelector("#kayitliVeriler tbody").addEventListener("click", functi
     const satir = e.target.closest("tr");
     satir.remove();
     
-veriIndex--; // İstersen indeks güncelleyebilirsin
+veriIndex--; 
     toplamlariGuncelle();
-    // No sütunlarını güncellemek için:
     const rows = document.querySelectorAll("#kayitliVeriler tbody tr");
     rows.forEach((row, i) => {
       row.cells[0].innerText = i + 1;
@@ -564,8 +508,6 @@ veriIndex--; // İstersen indeks güncelleyebilirsin
     veriIndex = rows.length + 1;
   }
 });
-
-
 
 function toplamlariGuncelle() {
   const rows = document.querySelectorAll("#kayitliVeriler tbody tr");
@@ -604,7 +546,6 @@ function toplamlariGuncelle() {
       document.getElementById("printDate").textContent = `${gun}.${ay}.${yil}`;
     }
 
-  // Sadece sayısal alanlar için geçerli olacak kısıtlama
 const sayisalInputlar = ['litre', 'metrekup', 'birimFiyat', 'euroKuru'];
 
 sayisalInputlar.forEach(id => {
@@ -622,12 +563,10 @@ sayisalInputlar.forEach(id => {
   });
 });
 
-    // Başlangıç değerleri için hesaplama ve tarih yazma
     hesapla();
     tarihYaz();
   </script>
 
-<!-- Copyright Footer -->
     <footer style="text-align:center; font-size: 12px; color: #555; margin-top: 20px;">
         <p>&copy; 2025 Melih Can Emir. Tüm Hakları Saklıdır.</p>
     </footer>
